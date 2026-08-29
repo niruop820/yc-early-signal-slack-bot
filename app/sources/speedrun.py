@@ -16,8 +16,7 @@ HEADERS = {
 }
 
 
-def fetch_speedrun_directory():
-    """
+def fetch_new_speedrun_companies():    """
     Fetch publicly visible companies from the a16z Speedrun website.
 
     The parser is intentionally modular so the source adapter can be
