@@ -34,3 +34,4 @@ SPEEDRUN_KEYWORDS = [
     "speedrun",
     "backed by speedrun",
 ]
+POLL_INTERVAL_HOURS = 1
