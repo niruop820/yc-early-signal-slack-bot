@@ -76,3 +76,9 @@ def make_signal_key(company):
     )
 
     return hashlib.sha256(raw.encode("utf-8")).hexdigest()
+def fetch_new_yc_companies(*args, **kwargs):
+    """
+    Compatibility wrapper used by the monitoring bot.
+    Fetches the latest YC directory companies.
+    """
+    return fetch_yc_directory()
