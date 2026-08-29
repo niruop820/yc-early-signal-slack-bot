@@ -139,3 +139,4 @@ def make_signal_key(post):
     return hashlib.sha256(
         raw.encode("utf-8")
     ).hexdigest()
+search_x_signals = fetch_x_posts
