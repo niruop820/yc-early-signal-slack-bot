@@ -109,3 +109,20 @@ def mark_alert_sent(signal_key: str):
             (signal_key,),
         )
         connection.commit()
+def is_seen(signal_key: str) -> bool:
+    """Return True if this signal has already been recorded."""
+    return signal_exists(signal_key)
+
+
+def mark_seen(signal_key: str):
+    """Mark a signal as seen."""
+    with get_connection() as connection:
+        connection.execute(
+            """
+            UPDATE signals
+            SET alert_sent = 1
+            WHERE signal_key = ?
+            """,
+            (signal_key,),
+        )
+        connection.commit()
