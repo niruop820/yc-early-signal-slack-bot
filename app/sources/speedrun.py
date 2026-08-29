@@ -5,7 +5,6 @@ import requests
 from bs4 import BeautifulSoup
 
 
-# Official a16z Speedrun website.
 SPEEDRUN_URL = "https://speedrun.a16z.com/"
 
 HEADERS = {
@@ -16,13 +15,7 @@ HEADERS = {
 }
 
 
-def fetch_new_speedrun_companies():    """
-    Fetch publicly visible companies from the a16z Speedrun website.
-
-    The parser is intentionally modular so the source adapter can be
-    updated if the website changes its HTML structure.
-    """
-
+def fetch_new_speedrun_companies():
     response = requests.get(
         SPEEDRUN_URL,
         headers=HEADERS,
@@ -35,19 +28,13 @@ def fetch_new_speedrun_companies():    """
     companies = []
     seen = set()
 
-    # Look for links that appear to point to company/profile pages.
     for link in soup.find_all("a", href=True):
         href = link.get("href", "").strip()
-
-        if not href:
-            continue
-
         text = link.get_text(" ", strip=True)
 
-        if not text:
+        if not href or not text:
             continue
 
-        # Keep only likely company/profile links.
         if not any(
             keyword in href.lower()
             for keyword in [
@@ -87,15 +74,9 @@ def fetch_new_speedrun_companies():    """
 
 
 def make_signal_key(company):
-    """
-    Create a stable identifier for duplicate prevention.
-    """
-
     raw = (
         f"{company.get('company_name', '').lower().strip()}|"
         f"{company.get('url', '').lower().strip()}"
     )
 
-    return hashlib.sha256(
-        raw.encode("utf-8")
-    ).hexdigest()
+    return hashlib.sha256(raw.encode("utf-8")).hexdigest()
